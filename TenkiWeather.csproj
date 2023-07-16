@@ -21,7 +21,7 @@
 		<ApplicationIdGuid>6dd9cde0-81b3-4a9f-a14e-64b93b1cc084</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.7</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.7.1</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion
