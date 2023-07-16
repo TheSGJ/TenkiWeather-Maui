@@ -10,7 +10,6 @@ public partial class MainPage : ContentPage
         NavigationPage.SetHasNavigationBar(this, false);
         ToolbarItems.Clear();
         InitializeComponent();
-        OnGetWeatherButtonClicked();
         _restService = new RestService();
     }
 
