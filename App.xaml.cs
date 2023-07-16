@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Application = Microsoft.Maui.Controls.Application;
-namespace TenkiWeather;
+﻿namespace TenkiWeather;
 
 public partial class App : Application
 {
