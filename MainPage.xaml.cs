@@ -1,10 +1,9 @@
-using System.Diagnostics; // Add this using directive at the top of MainPage.xaml.cs
-
+using System.Diagnostics;
 namespace TenkiWeather;
 
 public partial class MainPage : ContentPage
 {
-    // ... Rest of the code ...
+    RestService _restService;
 
     public MainPage()
     {
@@ -14,50 +13,77 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         _restService = new RestService();
 
+        // Call InitialWeather in a try-catch block to handle potential exceptions
         try
         {
             InitialWeather();
         }
         catch (Exception ex)
         {
+            // Log the exception or display an error message
             Debug.WriteLine($"Error in InitialWeather: {ex}");
             DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
         }
     }
 
-<<<<<<< HEAD
-=======
-    // ... Rest of the code ...
+    async void InitialWeather()
+    {
+        WeatherData weatherData = await _restService.GetWeatherData(
+            InitialRequestURL(Constants.OpenWeatherMapEndpoint)
+        );
 
->>>>>>> a13b9114b1229cf68d166fd611edbeb2ee239c7c
+        // Check if the weatherData is null before setting the BindingContext
+        if (weatherData != null)
+        {
+            BindingContext = weatherData;
+        }
+        else
+        {
+            // Display an error message if weatherData is null
+            DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
+        }
+    }
+
+    string InitialRequestURL(string endPoint)
+    {
+        string requestUri = endPoint;
+        requestUri += $"?q=Delhi";
+        requestUri += "&units=imperial";
+        requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+        return requestUri;
+    }
+
     async void OnGetWeatherButtonClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
         {
+            // Call GenerateRequestURL in a try-catch block to handle potential exceptions
             try
             {
                 WeatherData weatherData = await _restService.GetWeatherData(
                     GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
                 );
 
+                // Check if the weatherData is null before setting the BindingContext
                 if (weatherData != null)
                 {
                     BindingContext = weatherData;
                 }
                 else
                 {
+                    // Display an error message if weatherData is null
                     DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
                 }
             }
             catch (Exception ex)
             {
+                // Log the exception or display an error message
                 Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
                 DisplayAlert("Error", "Failed to fetch weather data", "OK");
             }
         }
     }
 
-<<<<<<< HEAD
     string GenerateRequestURL(string endPoint)
     {
         string requestUri = endPoint;
@@ -67,7 +93,3 @@ public partial class MainPage : ContentPage
         return requestUri;
     }
 }
-=======
-    // ... Rest of the code ...
-}
->>>>>>> a13b9114b1229cf68d166fd611edbeb2ee239c7c
