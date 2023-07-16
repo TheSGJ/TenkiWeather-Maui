@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+
 namespace TenkiWeather;
 public partial class MainPage : ContentPage
 {
@@ -15,12 +18,28 @@ public partial class MainPage : ContentPage
     async void OnGetWeatherButtonClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
-        {
-            WeatherData weatherData = await _restService.GetWeatherData(
-                GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
-            );
-            BindingContext = weatherData;
-        }
+            {
+                try
+                {
+                    WeatherData weatherData = await _restService.GetWeatherData(
+                        GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
+                    );
+
+                    if (weatherData != null)
+                    {
+                        BindingContext = weatherData;
+                    }
+                    else
+                    {
+                        DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
+                    DisplayAlert("Error", "Failed to fetch weather data", "OK");
+                }
+            }
 
     }
 
