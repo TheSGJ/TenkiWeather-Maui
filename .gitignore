@@ -1,0 +1,17 @@
+# .NET MAUI
+obj/
+bin/
+*.userprefs
+*.vs
+*.suo
+*.user
+*.sln.ide
+*.ide
+*.log
+*.dll
+*.exe
+*.pdb
+*.cache
+*.csproj.user
+*_api_doc.xml
+*_public_api.xml
