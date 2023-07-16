@@ -242,7 +242,6 @@
                 x:Name="_cityEntry"
                 Margin="5,0"
                 BackgroundColor="#7c58c9"
-                CharacterSpacing="7"
                 HorizontalTextAlignment="Center"
                 Text="Delhi"
                 TextColor="White"
