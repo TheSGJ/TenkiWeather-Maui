@@ -1,4 +1,4 @@
-﻿namespace TenkiWeather;
+namespace TenkiWeather;
 
 public partial class MainPage : ContentPage
 {
@@ -10,8 +10,19 @@ public partial class MainPage : ContentPage
         NavigationPage.SetHasNavigationBar(this, false);
         ToolbarItems.Clear();
         InitializeComponent();
-        InitialWeather();
         _restService = new RestService();
+
+        // Call InitialWeather in a try-catch block to handle potential exceptions
+        try
+        {
+            InitialWeather();
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or display an error message
+            Debug.WriteLine($"Error in InitialWeather: {ex}");
+            DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
+        }
     }
 
     async void InitialWeather()
@@ -20,7 +31,16 @@ public partial class MainPage : ContentPage
             InitialRequestURL(Constants.OpenWeatherMapEndpoint)
         );
 
-        BindingContext = weatherData;
+        // Check if the weatherData is null before setting the BindingContext
+        if (weatherData != null)
+        {
+            BindingContext = weatherData;
+        }
+        else
+        {
+            // Display an error message if weatherData is null
+            DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
+        }
     }
 
     string InitialRequestURL(string endPoint)
@@ -36,11 +56,30 @@ public partial class MainPage : ContentPage
     {
         if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
         {
-            WeatherData weatherData = await _restService.GetWeatherData(
-                GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
-            );
+            // Call GenerateRequestURL in a try-catch block to handle potential exceptions
+            try
+            {
+                WeatherData weatherData = await _restService.GetWeatherData(
+                    GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
+                );
 
-            BindingContext = weatherData;
+                // Check if the weatherData is null before setting the BindingContext
+                if (weatherData != null)
+                {
+                    BindingContext = weatherData;
+                }
+                else
+                {
+                    // Display an error message if weatherData is null
+                    DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or display an error message
+                Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
+                DisplayAlert("Error", "Failed to fetch weather data", "OK");
+            }
         }
     }
 
