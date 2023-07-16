@@ -1,4 +1,4 @@
-namespace WeatherApp
+namespace TenkiWeather
 {
     public static class Constants
     {
