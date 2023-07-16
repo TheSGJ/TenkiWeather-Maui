@@ -1,90 +1,36 @@
-using System;
-using System.Diagnostics;
-
-namespace TenkiWeather
+namespace TenkiWeather;
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    RestService _restService;
+
+    public MainPage()
     {
-        RestService _restService;
+        Title = "";
+        NavigationPage.SetHasNavigationBar(this, false);
+        ToolbarItems.Clear();
+        InitializeComponent();
+        _restService = new RestService();
+    }
 
-        public MainPage()
-        {
-            Title = "";
-            NavigationPage.SetHasNavigationBar(this, false);
-            ToolbarItems.Clear();
-            InitializeComponent();
-            _restService = new RestService();
-
-            try
-            {
-                InitialWeather();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error in InitialWeather: {ex}");
-                DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
-            }
-        }
-
-        async void InitialWeather()
+    async void OnGetWeatherButtonClicked(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
         {
             WeatherData weatherData = await _restService.GetWeatherData(
-                InitialRequestURL(Constants.OpenWeatherMapEndpoint)
+                GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
             );
-
-            if (weatherData != null)
-            {
-                BindingContext = weatherData;
-            }
-            else
-            {
-                DisplayAlert("Error", "Failed to fetch Weather Info, Try again with proper Internet Connection!", "OK");
-            }
+            BindingContext = weatherData;
         }
 
-        string InitialRequestURL(string endPoint)
-        {
-            string requestUri = endPoint;
-            requestUri += $"?q=Delhi";
-            requestUri += "&units=imperial";
-            requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-            return requestUri;
-        }
-
-        async void OnGetWeatherButtonClicked(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
-            {
-                try
-                {
-                    WeatherData weatherData = await _restService.GetWeatherData(
-                        GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
-                    );
-
-                    if (weatherData != null)
-                    {
-                        BindingContext = weatherData;
-                    }
-                    else
-                    {
-                        DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
-                    DisplayAlert("Error", "Failed to fetch weather data", "OK");
-                }
-            }
-        }
-
-        string GenerateRequestURL(string endPoint)
-        {
-            string requestUri = endPoint;
-            requestUri += $"?q={_cityEntry.Text}";
-            requestUri += "&units=imperial";
-            requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-            return requestUri;
-        }
     }
+
+    string GenerateRequestURL(string endPoint)
+    {
+        string requestUri = endPoint;
+        requestUri += $"?q={_cityEntry.Text}";
+        requestUri += "&units=imperial";
+        requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+        return requestUri;
+    }
+
 }
