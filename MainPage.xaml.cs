@@ -1,95 +1,91 @@
+using System;
 using System.Diagnostics;
-namespace TenkiWeather;
+using Xamarin.Forms;
 
-public partial class MainPage : ContentPage
+namespace TenkiWeather
 {
-    RestService _restService;
-
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-        Title = "";
-        NavigationPage.SetHasNavigationBar(this, false);
-        ToolbarItems.Clear();
-        InitializeComponent();
-        _restService = new RestService();
+        RestService _restService;
 
-        // Call InitialWeather in a try-catch block to handle potential exceptions
-        try
+        public MainPage()
         {
-            InitialWeather();
-        }
-        catch (Exception ex)
-        {
-            // Log the exception or display an error message
-            Debug.WriteLine($"Error in InitialWeather: {ex}");
-            DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
-        }
-    }
+            Title = "";
+            NavigationPage.SetHasNavigationBar(this, false);
+            ToolbarItems.Clear();
+            InitializeComponent();
+            _restService = new RestService();
 
-    async void InitialWeather()
-    {
-        WeatherData weatherData = await _restService.GetWeatherData(
-            InitialRequestURL(Constants.OpenWeatherMapEndpoint)
-        );
-
-        // Check if the weatherData is null before setting the BindingContext
-        if (weatherData != null)
-        {
-            BindingContext = weatherData;
-        }
-        else
-        {
-            // Display an error message if weatherData is null
-            DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
-        }
-    }
-
-    string InitialRequestURL(string endPoint)
-    {
-        string requestUri = endPoint;
-        requestUri += $"?q=Delhi";
-        requestUri += "&units=imperial";
-        requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-        return requestUri;
-    }
-
-    async void OnGetWeatherButtonClicked(object sender, EventArgs e)
-    {
-        if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
-        {
-            // Call GenerateRequestURL in a try-catch block to handle potential exceptions
             try
             {
-                WeatherData weatherData = await _restService.GetWeatherData(
-                    GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
-                );
-
-                // Check if the weatherData is null before setting the BindingContext
-                if (weatherData != null)
-                {
-                    BindingContext = weatherData;
-                }
-                else
-                {
-                    // Display an error message if weatherData is null
-                    DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
-                }
+                InitialWeather();
             }
             catch (Exception ex)
             {
-                // Log the exception or display an error message
-                Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
-                DisplayAlert("Error", "Failed to fetch weather data", "OK");
+                Debug.WriteLine($"Error in InitialWeather: {ex}");
+                DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
             }
         }
-    }
 
-    string GenerateRequestURL(string endPoint)
-    {
-        string requestUri = endPoint;
-        requestUri += $"?q={_cityEntry.Text}";
-        requestUri += "&units=imperial";
-        requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
-        return requestUri;
+        async void InitialWeather()
+        {
+            WeatherData weatherData = await _restService.GetWeatherData(
+                InitialRequestURL(Constants.OpenWeatherMapEndpoint)
+            );
+
+            if (weatherData != null)
+            {
+                BindingContext = weatherData;
+            }
+            else
+            {
+                DisplayAlert("Error", "Failed to fetch Weather Info, Try again with proper Internet Connection!", "OK");
+            }
+        }
+
+        string InitialRequestURL(string endPoint)
+        {
+            string requestUri = endPoint;
+            requestUri += $"?q=Delhi";
+            requestUri += "&units=imperial";
+            requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+            return requestUri;
+        }
+
+        async void OnGetWeatherButtonClicked(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
+            {
+                try
+                {
+                    WeatherData weatherData = await _restService.GetWeatherData(
+                        GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
+                    );
+
+                    if (weatherData != null)
+                    {
+                        BindingContext = weatherData;
+                    }
+                    else
+                    {
+                        DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
+                    DisplayAlert("Error", "Failed to fetch weather data", "OK");
+                }
+            }
+        }
+
+        string GenerateRequestURL(string endPoint)
+        {
+            string requestUri = endPoint;
+            requestUri += $"?q={_cityEntry.Text}";
+            requestUri += "&units=imperial";
+            requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+            return requestUri;
+        }
     }
 }
