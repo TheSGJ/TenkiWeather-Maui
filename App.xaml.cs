@@ -1,25 +1,39 @@
-﻿namespace TenkiWeather;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Controls.Xaml;
 
-public partial class App : Application
+namespace TenkiWeather
 {
-    public App()
+    public partial class App : Application
     {
-        InitializeComponent();
-        // Set the default theme to light
-        var mauiApp = new MauiApp();
-        mauiApp.RequestedTheme = OSAppTheme.Light;
-        mauiApp.RequestedThemeChanged += OnRequestedThemeChanged;
-
-        MainPage = new AppShell();
-    }
-
-    private void OnRequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
-    {
-        // If the user tries to change the theme, reset it back to light mode
-        var mauiApp = sender as MauiApp;
-        if (mauiApp.RequestedTheme == OSAppTheme.Dark)
+        public App()
         {
-            mauiApp.RequestedTheme = OSAppTheme.Light;
+            InitializeComponent();
+            var builder = MauiApp.CreateBuilder();
+            builder.UseMauiApp<AppShell>();
+
+            // Set the default theme to light
+            builder.ConfigureMauiHandlers((_, handlers) =>
+            {
+                handlers.AddHandler(typeof(IShellFlyoutRenderer), typeof(ShellFlyoutRenderer));
+            });
+
+            var mauiApp = builder.Build();
+
+            mauiApp.RequestedThemeChanged += OnRequestedThemeChanged;
+
+            MainPage = new AppShell();
+        }
+
+        private void OnRequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+        {
+            // If the user tries to change the theme, reset it back to light mode
+            var mauiApp = sender as MauiApp;
+            if (mauiApp.RequestedTheme == OSAppTheme.Dark)
+            {
+                mauiApp.RequestedTheme = OSAppTheme.Light;
+            }
         }
     }
 }
