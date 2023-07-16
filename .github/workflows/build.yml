@@ -38,6 +38,9 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore TenkiWeather.csproj
 
+      - name: Set Weather API Key as Environment Variable
+        run: echo "WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}" >> $GITHUB_ENV
+
       - name: Build MAUI Android
         run: dotnet publish TenkiWeather.csproj -c Release -f net7.0-android --no-restore
 
@@ -46,4 +49,5 @@ jobs:
         with:
           name: tenki-android-ci-build
           path: bin/Release/net7.0-android/*Signed.a*
+
 
