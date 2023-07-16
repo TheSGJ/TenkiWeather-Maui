@@ -10,7 +10,26 @@ public partial class MainPage : ContentPage
         NavigationPage.SetHasNavigationBar(this, false);
         ToolbarItems.Clear();
         InitializeComponent();
+        InitialWeather()
         _restService = new RestService();
+    }
+
+    async void InitialWeather(object sender, EventArgs e)
+    {
+        WeatherData weatherData = await _restService.GetWeatherData(
+            InitialRequestURL(Constants.OpenWeatherMapEndpoint)
+        );
+
+        BindingContext = weatherData;
+    }
+
+    string InitialRequestURL(string endPoint)
+    {
+        string requestUri = endPoint;
+        requestUri += $"?q=Delhi";
+        requestUri += "&units=imperial";
+        requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+        return requestUri;
     }
 
     async void OnGetWeatherButtonClicked(object sender, EventArgs e)

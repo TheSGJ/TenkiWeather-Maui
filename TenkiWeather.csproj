@@ -12,14 +12,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>Tenki Weather</ApplicationTitle>
+		<ApplicationTitle>Weather</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.thesgjtech.tenki</ApplicationId>
 		<ApplicationIdGuid>6dd9cde0-81b3-4a9f-a14e-64b93b1cc084</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.1</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.7</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>

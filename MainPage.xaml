@@ -64,11 +64,6 @@
             Orientation="Vertical"
             VerticalOptions="Center">
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                <Image
-                    HeightRequest="50"
-                    Source="weather.png"
-                    VerticalOptions="Center"
-                    WidthRequest="50" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="70"
@@ -210,12 +205,12 @@
                     FontAttributes="Bold"
                     FontSize="Small"
                     Text="Time of Sunrise"
-                    TextColor="Black"
+                    TextColor="Green"
                     VerticalOptions="Center" />
                 <Label
                     FontSize="15"
                     Text="{Binding Sys.Sunrise, Converter={StaticResource longToDatetimeConverter}}"
-                    TextColor="Black"
+                    TextColor="Green"
                     VerticalOptions="Center" />
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="40">
@@ -223,12 +218,12 @@
                     FontAttributes="Bold"
                     FontSize="Small"
                     Text="Time of Sunset"
-                    TextColor="Black"
+                    TextColor="Green"
                     VerticalOptions="Center" />
                 <Label
                     FontSize="15"
                     Text="{Binding Sys.Sunset, Converter={StaticResource longToDatetimeConverter}}"
-                    TextColor="Black"
+                    TextColor="Green"
                     VerticalOptions="Center" />
             </StackLayout>
         </StackLayout>
@@ -241,7 +236,7 @@
             <Entry
                 x:Name="_cityEntry"
                 Margin="5,0"
-                BackgroundColor="#7c58c9"
+                BackgroundColor="Yellow"
                 HorizontalTextAlignment="Center"
                 Text="Delhi"
                 TextColor="White"
@@ -249,7 +244,7 @@
                 WidthRequest="250" />
             <Button
                 BackgroundColor="#7c58c9"
-                BorderColor="White"
+                BorderColor="Red"
                 BorderWidth="1"
                 Clicked="OnGetWeatherButtonClicked"
                 Text="Get Weather"
