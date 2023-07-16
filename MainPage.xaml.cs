@@ -1,8 +1,10 @@
-﻿namespace TenkiWeather;
+using System.Diagnostics; // Add this using directive at the top of MainPage.xaml.cs
+
+namespace TenkiWeather;
 
 public partial class MainPage : ContentPage
 {
-    RestService _restService;
+    // ... Rest of the code ...
 
     public MainPage()
     {
@@ -11,20 +13,51 @@ public partial class MainPage : ContentPage
         ToolbarItems.Clear();
         InitializeComponent();
         _restService = new RestService();
+
+        try
+        {
+            InitialWeather();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in InitialWeather: {ex}");
+            DisplayAlert("Error", "Failed to fetch initial weather data", "OK");
+        }
     }
 
+<<<<<<< HEAD
+=======
+    // ... Rest of the code ...
+
+>>>>>>> a13b9114b1229cf68d166fd611edbeb2ee239c7c
     async void OnGetWeatherButtonClicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
         {
-            WeatherData weatherData = await _restService.GetWeatherData(
-                GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
-            );
+            try
+            {
+                WeatherData weatherData = await _restService.GetWeatherData(
+                    GenerateRequestURL(Constants.OpenWeatherMapEndpoint)
+                );
 
-            BindingContext = weatherData;
+                if (weatherData != null)
+                {
+                    BindingContext = weatherData;
+                }
+                else
+                {
+                    DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
+                DisplayAlert("Error", "Failed to fetch weather data", "OK");
+            }
         }
     }
 
+<<<<<<< HEAD
     string GenerateRequestURL(string endPoint)
     {
         string requestUri = endPoint;
@@ -34,3 +67,7 @@ public partial class MainPage : ContentPage
         return requestUri;
     }
 }
+=======
+    // ... Rest of the code ...
+}
+>>>>>>> a13b9114b1229cf68d166fd611edbeb2ee239c7c
