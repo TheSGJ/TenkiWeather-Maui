@@ -36,10 +36,10 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore MyMauiApplication.csproj
+        run: dotnet restore TenkiWeather.csproj
 
       - name: Build MAUI Android
-        run: dotnet publish MyMauiApplication.csproj -c Release -f net7.0-android --no-restore
+        run: dotnet publish TenkiWeather.csproj -c Release -f net7.0-android --no-restore
 
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v3.1.0
