@@ -6,6 +6,9 @@ public partial class MainPage : ContentPage
 
     public MainPage()
     {
+        Title = "";
+        NavigationPage.SetHasNavigationBar(this, false);
+        ToolbarItems.Clear();
         InitializeComponent();
         _restService = new RestService();
     }
