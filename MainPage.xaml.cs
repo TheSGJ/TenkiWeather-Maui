@@ -14,7 +14,7 @@ public partial class MainPage : ContentPage
         _restService = new RestService();
     }
 
-    async void InitialWeather(object sender, EventArgs e)
+    async void InitialWeather()
     {
         WeatherData weatherData = await _restService.GetWeatherData(
             InitialRequestURL(Constants.OpenWeatherMapEndpoint)
