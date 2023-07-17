@@ -77,14 +77,15 @@
                 </StackLayout>
                 <Label
                     FontSize="16"
+                    FontAttributes="Bold"
                     HorizontalOptions="Center"
                     Text="{Binding Weather[0].Description}"
                     TextColor="White" />
-                <Label
+                <!-- <Label
                     FontSize="12"
                     HorizontalOptions="Center"
-                    Text="June 15,10:00AM"
-                    TextColor="White" />
+                    Text="July 17,10:00AM"
+                    TextColor="White" /> -->
             </StackLayout>
 
             <Frame

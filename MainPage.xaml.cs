@@ -12,7 +12,41 @@ public partial class MainPage : ContentPage
         NavigationPage.SetHasNavigationBar(this, false);
         ToolbarItems.Clear();
         InitializeComponent();
+        InitialWeather();
         _restService = new RestService();
+    }
+
+    async void InitialWeather()
+    {
+                try
+                {
+                    WeatherData weatherData = await _restService.GetWeatherData(
+                        InitialRequestURL(Constants.OpenWeatherMapEndpoint)
+                    );
+
+                    if (weatherData != null)
+                    {
+                        BindingContext = weatherData;
+                    }
+                    else
+                    {
+                        DisplayAlert("Error", "Failed to fetch weather data for the city", "OK");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error in OnGetWeatherButtonClicked: {ex}");
+                    DisplayAlert("Error", "Failed to fetch weather data", "OK");
+                }
+    }
+
+    string InitialRequestURL(string endPoint)
+    {
+        string requestUri = endPoint;
+        requestUri += "?q=Delhi";
+        requestUri += "&units=imperial";
+        requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
+        return requestUri;
     }
 
     async void OnGetWeatherButtonClicked(object sender, EventArgs e)
